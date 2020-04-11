@@ -185,7 +185,8 @@ class VQADataset:
             dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor['images'],  self.input_tensor['q_token'], self.input_tensor['target']))
             
             if self.name == 'train':
-                dataset = dataset.shuffle(buffer_size=len(self.entries.target))
+                # dataset = dataset.shuffle(buffer_size=len(self.entries.target))
+                dataset = dataset.shuffle(buffer_size=512*50)
                 dataset = dataset.repeat(self.epoch)
 
             def get_by_idx(images, q_token, target):
