@@ -186,7 +186,7 @@ class VQADataset:
             
             if self.name == 'train':
                 # dataset = dataset.shuffle(buffer_size=len(self.entries.target))
-                dataset = dataset.shuffle(buffer_size=512*50)
+                dataset = dataset.shuffle(buffer_size=512*10)
                 dataset = dataset.repeat(self.epoch)
 
             def get_by_idx(images, q_token, target):
@@ -196,7 +196,7 @@ class VQADataset:
 
             dataset = dataset.map(get_by_idx)
             dataset = dataset.batch(self.batch)
-            dataset = dataset.prefetch(buffer_size=self.batch)
+            dataset = dataset.prefetch(buffer_size=3)
             self.dataset = dataset
             self.iterator = dataset.make_initializable_iterator()
             self.init = self.iterator.initializer

@@ -20,6 +20,7 @@ import h5py
 import pickle
 import numpy as np
 import utils
+from tqdm import tqdm
 
 
 csv.field_size_limit(sys.maxsize)
@@ -45,8 +46,8 @@ if __name__ == '__main__':
         train_imgids = pickle.load(open(train_ids_file, 'rb'))
         val_imgids = pickle.load(open(val_ids_file, 'rb'))
     else:
-        train_imgids = utils.load_imageid('data/train2014')
-        val_imgids = utils.load_imageid('data/val2014')
+        train_imgids = utils.load_imageid('/mscoco/train2014')
+        val_imgids = utils.load_imageid('/mscoco/val2014')
         pickle.dump(train_imgids, open(train_ids_file, 'wb'))
         pickle.dump(val_imgids, open(val_ids_file, 'wb'))
 
@@ -73,7 +74,7 @@ if __name__ == '__main__':
     print("reading tsv...")
     with open(infile, "r") as tsv_in_file:
         reader = csv.DictReader(tsv_in_file, delimiter='\t', fieldnames=FIELDNAMES)
-        for item in reader:
+        for item in tqdm(reader):
             item['num_boxes'] = int(item['num_boxes'])
             image_id = int(item['image_id'])
             image_w = float(item['image_w'])
